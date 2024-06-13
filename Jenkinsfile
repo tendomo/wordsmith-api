@@ -24,7 +24,7 @@ pipeline {
                    // def pomFile = readMavenPom project: '.'
                     //def appName = pomFile.getName()
                   
-                  sh "docker build -t word-api:latest -f Dockerfile"
+                  sh "docker build -t word-api:latest -f Dockerfile ."
                 
                  //sh 'docker build -t wordapi:${BUILD_NUMBER} .'
                   sh 'docker tag word-api:latest tendomo/word-api:${BUILD_NUMBER}'
