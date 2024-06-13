@@ -5,11 +5,7 @@ pipeline {
         git 'Default'
     }   
     stages {
-        stage('Checkout SCM') {
-            steps {
-                checkout scm
-            }
-        }
+        
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package'
