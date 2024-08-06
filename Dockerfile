@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.9.9 AS build
+FROM maven:3.9.7 AS build
 WORKDIR /app
 
 # Copy the pom.xml and source code
