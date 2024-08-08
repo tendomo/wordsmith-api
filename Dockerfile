@@ -1,22 +1,27 @@
-# Stage 1: Build the application
-FROM maven:3.9.7 AS build
+# Use an official Maven image to build the project
+FROM maven:3.9.8 AS build
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml and source code
-COPY pom.xml .
-COPY src ./src
+# Copy the pom.xml and src directory into the container
+COPY pom.xml /app/
+COPY src /app/src
 
-# Build the application
-RUN mvn clean package -DskipTests
+# Build the project
+RUN mvn clean package
 
-# Stage 2: Create the runtime image
+# Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-slim
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar my-api-application.jar
-# Expose the port your application runs on
-EXPOSE 8080
+# Copy the compiled classes and dependencies from the build stage
+COPY --from=build /app/target/classes /app/classes
+COPY --from=build /app/target/dependency /app/dependency
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "my-api-application.jar"]
+EXPOSE 80
+
+# Command to run the application
+CMD ["java", "-cp", "/app/classes:/app/dependency/*", "Main"]
