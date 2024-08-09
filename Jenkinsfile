@@ -8,6 +8,7 @@ pipeline {
         
         stage('Maven Build') {
             steps {
+                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tendomo/wordsmith-api.git']])
                 sh 'mvn clean install'
                 
             }
